@@ -2,28 +2,29 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabase/client.ts';
 import TailButton from './component/TailButton.tsx'
+import type { Session } from '@supabase/supabase-js';
+import { useSetAtom } from 'jotai';
+import { isLoginAtom, userAtom } from './atoms/atomLogin.ts';
 
 function Login() {
     // session 상태를 저장하는 state
-    const [session, setSession] = useState(null);
+    const [session, setSession] = useState<Session | null>(null);
+
+    const setIsLogin = useSetAtom(isLoginAtom);
+    const setUser = useSetAtom(userAtom);
 
     // 컴포넌트가 마운트될 때 한 번 실행되는 useEffect
     useEffect(() => {
-        // 현재 세션 정보를 가져와서 session state를 업데이트
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
+        // 현재 세션 가져오기
+        supabase.auth.getSession().then(({ data }) => setSession(data.session));
 
         // 인증 상태 변경을 감지하는 리스너를 설정
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
-            // 인증 상태가 변경되면 session state를 업데이트
-            setSession(session);
-        });
+        const { data: listener } = supabase.auth.onAuthStateChange(
+            (_event: string, session: Session | null) => setSession(session)
+        );
 
         // 컴포넌트가 언마운트될 때 리스너를 정리
-        return () => subscription.unsubscribe();
+        return () => listener.subscription.unsubscribe();
     }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 함
 
     // session 상태 변경될 때 로그인 변수 변경
@@ -32,6 +33,13 @@ function Login() {
         if (session) {
             localStorage.setItem("user_name", JSON.stringify(session?.user?.user_metadata?.user_name || null));
             localStorage.setItem("login", JSON.stringify(1));
+            setIsLogin(true);  
+            setUser({ user_metadata: { user_name: session.user?.user_metadata?.user_name ?? "" } });
+        } else {
+            localStorage.setItem("user_name", JSON.stringify(""));
+            localStorage.setItem("login", JSON.stringify(0));
+            setIsLogin(false); 
+            setUser({ user_metadata: { user_name: "" } });
         }
     }, [session])
 
@@ -45,8 +53,7 @@ function Login() {
     // 로그아웃하는 비동기 함수
     const signOut = async () => {
         await supabase.auth.signOut();
-        localStorage.setItem("user_name", JSON.stringify(""));
-        localStorage.setItem("login", JSON.stringify(0));
+        setSession(null); // 로그아웃 시 session 초기화
     };
 
     // 세션이 없는 경우 (로그인되지 않은 상태)
