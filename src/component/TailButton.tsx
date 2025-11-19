@@ -1,4 +1,3 @@
-//btStyle 객체: 버튼 색상별 Tailwind CSS 클래스 정의
 const btStyle = {
         blue: {
             base: "bg-blue-400",
@@ -16,9 +15,17 @@ const btStyle = {
             base: "bg-red-400",
             hover: "hover:bg-red-200 hover:text-red-950"
         }
-    }
+} as const
+
+type BtColor = keyof typeof btStyle;
+
+interface TailButtonProps {
+    color : BtColor,
+    caption : string,
+    onHandle? : (e:React.MouseEvent<HTMLButtonElement>) => void         // 해도 되고 [onHandle? : () => void] 해도 됨
+}
     
-export default function TailButton({color, caption, onHandle}) {
+export default function TailButton({color, caption, onHandle} : TailButtonProps) {
 
     //btStyle 객체에서 color에 해당하는 스타일 가져오기
     //예: color가 "blue"이면 btStyle["blue"] 반환

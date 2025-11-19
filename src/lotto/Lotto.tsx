@@ -8,69 +8,27 @@ export default function Lotto() {
     //useState로 공 생성 여부 관리
     //useState는 상태 변화 관리
     //훅은 바디 안에서만 사용 가능
-    let [ball, setBall] = useState([]);
+    let [ball, setBall] = useState<React.ReactElement[]>([]);
 
     //클릭했을 때 난수가 겹치지 않는 TailBall 6개 생성 => onHandle에 전달할 함수
-
-    // const click = () => {
-    //     // 1. 로또 숫자 저장 배열
-    //     let nums = [];
-    //     //2. 숫자 일곱 개 중복되지 않도록 생성
-    //     while (nums.length < 7) {
-    //         let rd = Math.floor((Math.random() * 45) + 1);
-    //         if (nums.includes(rd)){
-    //             continue;
-    //         } else {
-    //             nums.push(rd);
-    //         }
-    //     }
-    //     setBall(nums);
-    // }
-
-    //Set 집합: 중복되지 않는 값을 저장하는 객체
-    // const click = () => {
-    //     // 1. 로또 숫자 저장 배열
-    //     let nums = new Set();
-    //     //2. 숫자 일곱 개 생성 (중복 자동 제거)
-    //     while (nums.size < 7) {
-    //         let rd = Math.floor((Math.random() * 45) + 1);
-    //         nums.add(rd);
-    //     }
-    //     //3. set을 배열로 변환
-    //     nums = Array.from(nums);
-    //     //4. 보너스 번호 뽑기
-    //     let bonus = nums.pop();
-    //     //5. 배열 정렬
-    //     nums.sort((a, b) => a - b);
-    //     //6. 플러스 만들기
-    //     nums.push(50);
-    //     //7. 보너스 번호 추가
-    //     nums.push(bonus);
-    //     //8. 태그 만들기
-    //     let tm = nums.map(num => num == 50? 
-    //                      <span className='font-bold' key="plus"> + </span> : <TailBall n={num} key={num} />);\
-    //     //9. 상태 변경
-    //     setBall(tm);
-    // }
-
     //Set 집합: 중복되지 않는 값을 저장하는 객체
     const click = () => {
         // 1. 로또 숫자 저장 배열
-        let nums = new Set();
+        let nums : Set<number> = new Set();
         //2. 숫자 일곱 개 생성 (중복 자동 제거)
         while (nums.size < 7) {
             let rd = Math.floor((Math.random() * 45) + 1);
             nums.add(rd);
         }
         //3. set을 배열로 변환
-        nums = Array.from(nums);
+        let numArr : number[] = Array.from(nums);
         //4. 보너스 번호 뽑기
-        let bonus = nums.pop();
+        let bonus = numArr.pop();
         //5. 배열 정렬
-        nums.sort((a, b) => a - b);
+        numArr.sort((a, b) => a - b);
         //6. 태그 만들기
-        let tm = nums.map(num => <TailBall n={num} key={num} />);
-        tm = [...tm, <span className='font-bold' key="plus"> + </span>, <TailBall n={bonus} key={bonus} />];
+        let tm = numArr.map(num => <TailBall n={num} key={num} />);
+        tm = [...tm, <span className='font-bold' key="plus"> + </span>, <TailBall n={bonus ? bonus : undefined} key={bonus} />];
         //7. 상태 변경
         setBall(tm);
     }
@@ -86,7 +44,6 @@ export default function Lotto() {
                 <span className='font-bold'>{ball.length == 0? " " : " + "}</span>
                 <TailBall n={ball[6]} /> */}
                 {ball}
-                {console.log(ball)}
             </div>
             <TailButton color="blue" caption="로또 번호 생성" onHandle={click}/>
         </div>

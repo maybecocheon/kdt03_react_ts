@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import type { FestivalType } from "./FestivalType";
 
 export default function FestivalContents() {
     const location = useLocation();
-    const contents = location.state.contents;
+    const contents : FestivalType = location.state.contents;
     const kakaoMapUrl = `https://map.kakao.com/link/map/${contents.MAIN_PLACE.replace(',','').replace(' ','')},${contents.LAT},${contents.LNG}`;
 
     const navigate = useNavigate();

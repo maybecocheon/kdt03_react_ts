@@ -2,7 +2,12 @@ import TailButton from "../component/TailButton"
 import { useEffect, useRef, useState } from "react"
 import { supabase } from "../supabase/client"
 
-export default function TodoItem({ todo, getTodos }) {
+interface TodoItemProps {
+    todo : {},
+    getTodos : () => {}
+}
+
+export default function TodoItem({ todo, getTodos } : TodoItemProps) {
 
     // 수정 여부를 묻는 state 
     const [isEdit, setIsEdit] = useState(false);
