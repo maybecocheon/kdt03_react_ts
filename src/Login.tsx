@@ -1,10 +1,10 @@
 // 로컬스토리지 사용하여 로그인하기
 import { useEffect, useState } from 'react';
-import { supabase } from './supabase/client.ts';
-import TailButton from './component/TailButton.tsx'
+import { supabase } from './supabase/client';
+import TailButton from './component/TailButton'
 import type { Session } from '@supabase/supabase-js';
 import { useSetAtom } from 'jotai';
-import { isLoginAtom, userAtom } from './atoms/atomLogin.ts';
+import { isLoginAtom, userAtom } from './atoms/atomLogin';
 
 function Login() {
     // session 상태를 저장하는 state

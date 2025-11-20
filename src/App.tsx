@@ -1,14 +1,14 @@
 // APP.jsx는 리액트의 진입점
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from './Login.tsx'
-import Header from './component/Header.tsx'
-import Footer from './component/Footer.tsx'
-import Lotto from './lotto/Lotto.tsx'
-import Festival from './festival/Festival.tsx'
-import FestivalContents from './festival/FestivalContents.tsx'
-import TodoList from './todo/TodoList.tsx'
-import TestTs from './test_ts/TestTs.tsx'
+import Login from './Login'
+import Header from './component/Header'
+import Footer from './component/Footer'
+import Lotto from './lotto/Lotto'
+import Festival from './festival/Festival'
+import FestivalContents from './festival/FestivalContents'
+import TodoList from './todo/TodoList'
+import TestTs from './test_ts/TestTs'
 
 function App() {
   return (

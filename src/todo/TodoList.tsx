@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
 import { supabase } from "../supabase/client"
+import type { TodoType } from "./TodoType"
 
 export default function TodoList() {
     // 투두리스트 목록 변수 설정
-    const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState<TodoType[]>([]);
 
     // 완료, 미완료 변수 설정하기
     const [completed, setCompleted] = useState(0);
@@ -38,7 +39,7 @@ export default function TodoList() {
     return (
         <div className="w-9/10 h-full m-10 overflow-y-auto">
             <div className="font-extrabold text-4xl mb-5 text-center">할일목록(Supabase Client 라이브러리 사용)</div>
-            <div className="bg-blue-50 p-5 text-center border-1 border-gray-300 rounded-2xl mb-5 flex justify-center gap-7">
+            <div className="bg-blue-50 p-5 text-center border border-gray-300 rounded-2xl mb-5 flex justify-center gap-7">
                 <div className="bg-blue-100 p-2 rounded-lg w-20 h-20 flex flex-col justify-center"><p>전체:</p><p className="font-extrabold text-xl">{todos.length}개</p></div>
                 <div className="bg-blue-100 p-2 rounded-lg w-20 h-20 flex flex-col justify-center"><p>완료:</p><p className="font-extrabold text-xl">{completed}개</p></div>
                 <div className="bg-blue-100 p-2 rounded-lg w-20 h-20 flex flex-col justify-center"><p>미완료:</p><p className="font-extrabold text-xl">{incompleted}개</p></div>

@@ -1,9 +1,10 @@
 import TailButton from "../component/TailButton"
 import { useEffect, useRef, useState } from "react"
 import { supabase } from "../supabase/client"
+import type { TodoType } from "./TodoType"
 
 interface TodoItemProps {
-    todo : {},
+    todo : TodoType,
     getTodos : () => {}
 }
 
@@ -14,11 +15,11 @@ export default function TodoItem({ todo, getTodos } : TodoItemProps) {
 
     // 수정 시 state 변수
     const [editValue, setEditValue] = useState(todo.text);
-    const editRef = useRef();
+    const editRef = useRef<HTMLInputElement>(null);
 
     // 수정 클릭 시 함수
     // 체크박스의 값 참조하기
-    const todoCheckValue = useRef();
+    const todoCheckValue = useRef<HTMLInputElement>(null);
     const onClickChange = () => {
         setIsEdit(true);
     }
@@ -48,13 +49,13 @@ export default function TodoItem({ todo, getTodos } : TodoItemProps) {
     const onClickSave = async () => {
         if (editValue == "") {
             alert("값을 입력해 주세요.");
-            editValue.focus();
+            editRef.current?.focus();
             return;
         }
 
         const { error } = await supabase
                                 .from('todos')
-                                .update({ text: editRef.current.value })
+                                .update({ text: editRef.current?.value })
                                 .eq('id', todo.id);
 
         if (error) {
@@ -88,9 +89,9 @@ export default function TodoItem({ todo, getTodos } : TodoItemProps) {
     return (
         <div className="flex gap-5 mb-2">
             <div className="flex w-full gap-5 items-center bg-yellow-50 p-2">
-                <input type="checkbox" name={todo.id} ref={todoCheckValue} onChange={onCheckToggle} />
+                <input type="checkbox" name={String(todo.id)} ref={todoCheckValue} onChange={onCheckToggle} />
                 {isEdit ?
-                <input type="text" name={todo.id} value={editValue} ref={editRef} onChange={(e) => setEditValue(e.target.value)} className="p-2 w-full focus: bg-gray-50" />
+                <input type="text" name={String(todo.id)} value={editValue} ref={editRef} onChange={(e) => setEditValue(e.target.value)} className="p-2 w-full focus: bg-gray-50" />
                     : <p className={todo.completed ? "line-through text-gray-300" : ""}>{todo.text}</p>}
             </div>
             {isEdit ?

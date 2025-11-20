@@ -4,7 +4,7 @@ import type { FestivalType } from "./FestivalType";
 export default function FestivalContents() {
     const location = useLocation();
     const contents : FestivalType = location.state.contents;
-    const kakaoMapUrl = `https://map.kakao.com/link/map/${contents.MAIN_PLACE.replace(',','').replace(' ','')},${contents.LAT},${contents.LNG}`;
+    const kakaoMapUrl = `https://map.kakao.com/link/map/${contents.MAIN_PLACE.toString().replace(',','').replace(' ','')},${contents.LAT},${contents.LNG}`;
 
     const navigate = useNavigate();
     const handleClick = () => {
@@ -36,7 +36,7 @@ export default function FestivalContents() {
                         </tr>
                         <tr className="flex p-2">
                             <td className="w-30 text-right font-bold pr-5">상세내용</td>
-                            <td className="w-full">{contents.ITEMCNTNTS.split("*").slice(0, 1)}</td>
+                            <td className="w-full">{contents.ITEMCNTNTS.toString().split("*").slice(0, 1)}</td>
                         </tr>
                     </tbody>
                 </table>

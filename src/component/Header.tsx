@@ -1,4 +1,4 @@
-import RouteNav from "./RouteNav.js"
+import RouteNav from "./RouteNav"
 
 export default function Header() {
   return (

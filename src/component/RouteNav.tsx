@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useAtomValue } from 'jotai';
-import { userAtom, isLoginAtom } from '../atoms/atomLogin.js'
+import { userAtom, isLoginAtom } from '../atoms/atomLogin'
 
 export default function RouteNav() {
     const navigate = useNavigate();

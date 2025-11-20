@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react"
 import TailCard from "../component/TailCard";
 import { Link } from "react-router-dom";
+import loadingGif from "../assets/ic_loading_img.gif";
 import type { FestivalType } from "./FestivalType";
-import loadingGif from '../assets/ic_loading_img.gif'
 
 export default function Festival() {
     const apiKey = import.meta.env.VITE_PUBLIC_API;
@@ -14,10 +14,10 @@ export default function Festival() {
 
     const [loading, setLoading] = useState(false);
 
-    const selRef = useRef<HTMLSelectElement>(null);
+    const selRef = useRef<HTMLSelectElement>(null);     // ref는 초기값 반드시 null로 잡기
 
     const handleSelected = () => {
-        setGu(selRef.current?.value);
+        setGu(selRef.current?.value);                   // 옵션 체이닝: 값 없으면 undefined
     }
 
     // 데이터 가져오기
@@ -61,7 +61,7 @@ export default function Festival() {
             {
                 loading ?
                     <div className="flex flex-col items-center font-extrabold text-4xl mb-10 w-full text-center">
-                        <img name="loadingImage" alt="로딩중" src={loadingGif} />
+                        <img alt="로딩중" src={loadingGif} />
                     </div> : ""
             }
             <div className="w-9/10 p-5 grid 2xl:grid-cols-3 lg:grid-cols-2 gap-6">

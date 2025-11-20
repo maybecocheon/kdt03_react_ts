@@ -1,11 +1,10 @@
-import type { Atom } from "jotai";
 import { atom } from "jotai"
 
 // localStorage에서 초기값 꺼내기
 const savedLogin = JSON.parse(localStorage.getItem("login") ?? "0");
 const savedUser = JSON.parse(localStorage.getItem("user_name") ?? "''");
 
-export const isLoginAtom : Atom<boolean> = atom(savedLogin === 1);
+export const isLoginAtom = atom<boolean>(savedLogin === 1);
 
 interface User {
   user_metadata: { user_name: string }
